@@ -255,5 +255,114 @@ const arr = [1,2,3,4]
 arr.unshift(5,6,7) // 7
 console.log(arr) // [5,6,7,1,2,3,4]
 
+// reduce 콜백함수에서 리턴 된 값이 누적되는 값으로 들어감. 2번째 인수는 초기값
+// accumulator = 누적되는 값, currentValue = 아이템들 
+const arr = [1,2,3,4]
+const sum = arr.reduce((acc, cur)=> {
+  return acc + cur
+},0)
+console.log(sum) // 10
+
+// reverse 배열의 순서를 반전, 원본 변경O
+const arr = [1,2,3,4]
+console.log(arr.reverse()) // [5,4,3,2,1]
+
+// slice 원하는 부분만 잘라낼 때 사용, 인수 - (어디서 시작, 직전값까지 추출)
+const arr = [1,2,3,4]
+console.log(arr.slice(0,3)) // 4
+
+// some 배열안의 어떤 요소라도 통과하는지 테스트 (빈 배열이면 false)
+const arr = [1,2,3,4]
+console.log(arr.some(item=> {
+  return item === 1
+}) // true
+
+// splice(인덱스, 삭제개수, 추가데이터) 배열의 기존 요소를 삭제 또는 교체, 추가함,(제거한 데이터를 배열로 반환) 원본 변경O 
+const arr = ['a','b','c','d']
+console.log(arr.splice(2,1,'e')) // ['c']
+console.log(arr) // ['a','b','e','d']
 ```
 
+## object 객체
+
+```js
+// Object.assign 객체의 얕은 복사
+const user = {
+  name: 'lee',
+  age: 96
+}
+const userB = {
+  name: 'kim',
+  isValid: true
+}
+const userA = {} 
+Object.assign(userA,user,) // (복사될 객체, 출처 객체1, 출처객체2, ...)
+console.log(userA) // userA {name: 'lee',age: 96}
+Object.assign(userA,user,userB)
+console.log(userB) // userA {name: 'kim', age: 96, isValid: true} 같은 속성이 있으면 덮어 씌어진다
+const res = Object.assign({},userA,user,userB) // 빈 객체를 만들면 출처객체를 내용의 변화없이 합칠 수 있다. 
+
+// entries 2차원 배열 만들기 
+const user = {
+  name: 'lee',
+  age: 96
+}
+const res = Object.entries(user)
+console.log(res) 
+/* [[
+  'name',
+  'lee'
+],
+[
+  'age',
+  96
+]]  */ 
+// 만들고 for문 돌릴 수 있음
+for (const item of res){
+  console.log(item[0]) // key
+  console.log(item[1]) // value
+}
+
+// keys 객체의 key들 추출
+const user = {
+  name: 'lee',
+  age: 96,
+  isValid: true
+}
+const res = Object.keys(user)
+console.log(res) // ['name', 'age', 'isValid']
+
+// values 객체의 value들 추출
+const user = {
+  name: 'lee',
+  age: 96,
+  isValid: true
+}
+const res = Object.values(user)
+console.log(res) // ['lee', 96, true]
+```
+
+## 날짜와 시간
+
+```js
+
+// new Date()  현재시간 불러오기
+const date = new Date()
+// 시간은 변수에 잘 담지 않는다.
+date.getFullYear() // X
+
+new Date().getFullYear() // 현재년도 불러오기
+new Date().getMonth() // 현재월 불러오기
+new Date().getDate() // 현재날짜 불러오기
+new Date().getDay() // 현재요일 불러오기
+new Date().getHours() // 현재 시 불러오기
+new Date().getMinutes() // 현재 분 불러오기
+new Date().getSeconds() // 현재 초 불러오기
+
+// Date.now 1970.01.01 00:00:00 이후 몇 ms 지났는지
+
+// moment.js // 시간에 대한 라이브러리 (좀 무겁다)
+특정 시간을 쉽게 추출 해낼 수 있다.
+moment().format('YYYY년') // 2022년 
+// Day.js 시간에 대한 라이브러리(좀 가볍다)
+```
