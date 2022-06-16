@@ -1,0 +1,63 @@
+# TIL
+
+# 클로저
+
+클로저에서 기억해야 할 핵심개념은 함수를 어디서 정의했는지에 따라 스코프를 결정하는 렉시컬 스코프라는 개념이다.
+
+함수 정의가 평가되어 함수 객체를 생성할 때 함수가 정의된 환경에 의해 결정된 상위 스코프의 참조를 함수 객체 자신의 내부 슬롯 `Environment` 에 저장한다.
+
+예를 들어 전역에서 정의된 함수는 전역 코드가 평가될 때 함수 객체를 생성하고, 코드 평가 시점에 실행 중인 실행 컨텍스트의 렉시컬 환경인 전역 렉시컬 환경의 참조가 저장된다.
+
+## 클로저의 사용
+
+클로저는 **상태를 안전하게 변경하고 유지하기 위해 사용**한다.
+
+→ 특정 함수에게만 상태 변경을 허용하기 위해 사용
+
+클로저는 중첩 함수가 상위 스코프의 식별자를 참조하고 있고 중첩 함수가 외부 함수보다 더 오래 유지되는 경우에 한정하는 것이 일반적이다.
+
+클로저에 의해 저장되는 상위 스코프의 변수를 자유 변수 라고 부른다.
+
+## 캡슐화와 정보 은닉
+
+캡슐화는 객체의 상태를 나타내는 프로퍼티와 메서드를 하나로 묶는것을 말한다.
+
+캡슐화는 객체의 특정 프로퍼티나 메서드를 감출 목적으로 사용하기도 하는데 이를 정보 은닉이라 한다.
+
+```jsx
+function makeCounter(predicate) {
+  let counter = 0
+  return function () {
+    counter = predicate(counter)
+    return counter
+  }
+}
+function increase(n) {
+  return ++n
+}
+function decrease(n) {
+  return --n
+}
+
+const increaser = makeCounter(increase)
+console.log(increaser())
+```
+
+```jsx
+const counter = (function () {
+  let counter = 0
+  return function (predicate) {
+    counter = predicate(counter)
+    return counter
+  }
+})()
+
+function increase(n) {
+  return ++n
+}
+function decrease(n) {
+  return --n
+}
+
+console.log(counter(increase))
+```
